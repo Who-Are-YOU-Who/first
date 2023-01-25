@@ -9,14 +9,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Rate Us!</title>
+<title>Join us!</title>
 <meta charset="UTF-8" />
 </head>
 <body>
-
 <jsp:include page="common/header.jsp" flush="true"></jsp:include><br>
-<jsp:include page="main/mainView.jsp" flush="true"></jsp:include><br>
-<jsp:include page="common/footer.jsp" flush="true"></jsp:include>
-
+<jsp:include page="member/join.jsp" flush="true"></jsp:include><br>
+<jsp:include page="common/footer.jsp" flush="true"></jsp:include><br>
 </body>
 </html>

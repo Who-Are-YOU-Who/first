@@ -2,6 +2,20 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+		<!-- post 한글 처리 -->
+	<filter>
+		<filter-name>filter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
@@ -22,6 +36,12 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
+		<!-- 404처리 시작 -->
+		<init-param>
+			<param-name>throwExceptionIfNoHandlerFound</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<!-- 404처리 끝 -->
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 		
@@ -30,20 +50,22 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
-		<!-- post방식으로 전송될 때 한글이 깨지지 않도록 인코딩 필터 정의 -->
+	<context-param>  
+		<param-name>logbackConfigLocation</param-name>  
+		<param-value>classpath:config/logback.xml</param-value>
+	</context-param> 
+	<listener>  
+		<listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
+	</listener>
+	
+	<!-- HTTP Method Filter -->
 	<filter>
-  	<filter-name>EncodingFilter</filter-name>
- 	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-  	<init-param>
-    <param-name>encoding</param-name>
-    <param-value>UTF-8</param-value>
-  	</init-param>
+		<filter-name>httpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
 	</filter>
- 
-		<!-- 인코딩 필터 맵핑 /* 는 모든 경로의 파일을 말한다. -->
 	<filter-mapping>
-    <filter-name>EncodingFilter</filter-name>
-  	<url-pattern>/*</url-pattern>
+		<filter-name>httpMethodFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	
 </web-app>
