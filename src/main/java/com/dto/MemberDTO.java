@@ -5,92 +5,72 @@ import org.apache.ibatis.type.Alias;
 @Alias("MemberDTO")
 public class MemberDTO {
 
-	private String user_id;
-	private String user_pw;
-	private String user_name;
-	private String user_emal1;
-	private String user_emal2;
-	private String user_phone;
-	private int role;
+	private String userId;
+	private String userPw;
+	private String userName;
+	private String userEmail;
+	private String userRole;
 	
 	public MemberDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public MemberDTO(String user_id, String user_pw, String user_name, String user_emal1, String user_emal2,
-			String user_phone, int role) {
+	public MemberDTO(String userId, String userPw, String userName, String userEmail, String userRole) {
 		super();
-		this.user_id = user_id;
-		this.user_pw = user_pw;
-		this.user_name = user_name;
-		this.user_emal1 = user_emal1;
-		this.user_emal2 = user_emal2;
-		this.user_phone = user_phone;
-		this.role = role;
+		this.userId = userId;
+		this.userPw = userPw;
+		this.userName = userName;
+		this.userEmail = userEmail;
+		this.userRole = userRole;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public String getUser_pw() {
-		return user_pw;
+	public String getUserPw() {
+		return userPw;
 	}
 
-	public void setUser_pw(String user_pw) {
-		this.user_pw = user_pw;
+	public void setUserPw(String userPw) {
+		this.userPw = userPw;
 	}
 
-	public String getUser_name() {
-		return user_name;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public String getUser_emal1() {
-		return user_emal1;
+	public String getUserEmail() {
+		return userEmail;
 	}
 
-	public void setUser_emal1(String user_emal1) {
-		this.user_emal1 = user_emal1;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
-	public String getUser_emal2() {
-		return user_emal2;
+	public String getUserRole() {
+		return userRole;
 	}
 
-	public void setUser_emal2(String user_emal2) {
-		this.user_emal2 = user_emal2;
-	}
-
-	public String getUser_phone() {
-		return user_phone;
-	}
-
-	public void setUser_phone(String user_phone) {
-		this.user_phone = user_phone;
-	}
-
-	public int getRole() {
-		return role;
-	}
-
-	public void setRole(int role) {
-		this.role = role;
+	public void setUserRole(String userRole) {
+		this.userRole = userRole;
 	}
 
 	@Override
 	public String toString() {
-		return "MemberDTO [user_id=" + user_id + ", user_pw=" + user_pw + ", user_name=" + user_name + ", user_emal1="
-				+ user_emal1 + ", user_emal2=" + user_emal2 + ", user_phone=" + user_phone + ", role=" + role + "]";
+		return "MemberDTO [userId=" + userId + ", userPw=" + userPw + ", userName=" + userName + ", userEmail="
+				+ userEmail + ", userRole=" + userRole + "]";
 	}
+	
 	
 	
 }

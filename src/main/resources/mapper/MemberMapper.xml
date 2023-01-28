@@ -8,4 +8,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 SELECT *  FROM member
 </select>
 
+<!-- 회원가입시 아이디 중복체크 -->
+<select id="checkId" parameterType="String" resultType="MemberDTO">
+select * from member where userId = #{userId}
+</select>
+
+<!-- 회원가입시 이메일 중복체크 -->
+<select id="checkEmail" parameterType="String" resultType="MemberDTO">
+select * from member where userEmail = #{userEmail}
+</select>
+
+<!-- 회원가입 insert -->
+<insert id="insertMember" parameterType="hashmap">
+insert into member values(#{userId},#{userPw},#{userName},#{userEmail},0)
+</insert>
+
+<!-- 로그인 시 아이디 존재 확인 -->
+<select id="loginIdCheck" parameterType="String" resultType="MemberDTO">
+select * from member where userId = #{userId}
+</select>
+
 </mapper>

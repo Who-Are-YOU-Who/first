@@ -3,23 +3,35 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
+<c:set var="contextPath" value="<%= request.getContextPath()%>"></c:set>
+
 <br><br> 
 <h1 style="text-align: center;">To Join Us</h1>
 <br><br><br>
+
+
+<div class="alert alert-dismissible alert-primary" id="submitAlert" style="display: none; width: 50%; height: 200px; margin: auto">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <p style=" margin-top:50px ;margin-left:30% ; font-size: large;"> <strong>약관에 모두 동의하셔야만 회원가입이 진행됩니다.</strong> </p> 
+</div>
+
+<!-- 전체동의 -->
  <fieldset class="form-group">
       <div class="form-check" style="margin-left: 10%">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <input class="form-check-input" type="checkbox" value="" id="allCheck">
         <label class="form-check-label" for="flexCheckDefault">
          모든 약관을 확인하고 전체동의합니다.(전체동의, 선택항목도 포함입니다.
         </label>
       </div>
     </fieldset>
 <br>
+
+<!-- 이용약관 동의 -->
 <div class="card border-primary mb-3" style="width: 80%; margin: 0 auto;">
   <div class="card-header">
   <fieldset class="form-group">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <input class="form-check-input" type="checkbox" value="" id="check1">
         <label class="form-check-label" for="flexCheckDefault">
           (필수)이용약관
         </label>
@@ -249,11 +261,13 @@
   </div>
 </div>
 <br>
+
+<!-- 개인정보 수집 동의 -->
 <div class="card border-primary mb-3" style="width: 80%; margin: 0 auto;">
   <div class="card-header">
   	<fieldset class="form-group">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <input class="form-check-input" type="checkbox" value="" id="check2">
         <label class="form-check-label" for="flexCheckDefault">
           (필수)개인정보 수집 및 이용
         </label>
@@ -279,8 +293,38 @@
   </div>
 </div>
 
+<button type="button" class="btn btn-secondary"  style="margin-left: 50%;" id="nextButton">다음단계</button>
+ 
 
 
-<form style=" text-align: center;">
-<button type="button" class="btn btn-secondary" type="submit" s>다음단계</button>
-</form>      
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+//다음단계 버튼 클릭
+$("#nextButton").on("click", function() {
+	console.log("다음단계 클릭");
+	if($("#check1").is(":checked")&&$("#check2").is(":checked")){
+		 location.href="${contextPath}/join2";
+	}else{
+		console.log("이용약관 체크 안함");
+		alert("필수 이용약관을 동의해 주세요.");
+	}
+}); 
+
+
+/* 전체동의 선택script */
+$("#allCheck").on("click", function(){
+	console.log("모두동의 클릭");
+	
+	if($("#allCheck").is(":checked")){ //전체 선택 체크시
+		console.log("모두동의 선택됨");
+		$("input:checkbox[id='check1']").prop("checked",true);
+		$("input:checkbox[id='check2']").prop("checked",true);
+	}else{//체크 해제시
+		$("input:checkbox[id='check1']").prop("checked",false);
+		$("input:checkbox[id='check2']").prop("checked",false);
+	}
+	
+}); //end allCheck 
+
+</script>

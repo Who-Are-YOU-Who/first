@@ -9,12 +9,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Insert title here</title>
+<title>Rate us!</title>
 <meta charset="UTF-8" />
 </head>
 <body>
 <jsp:include page="common/header.jsp" flush="true"></jsp:include><br>
-<jsp:include page="login/login.jsp" flush="true"></jsp:include><br>
+<jsp:include page="join/joinSuccess.jsp" flush="true"></jsp:include><br>
 <jsp:include page="common/footer.jsp" flush="true"></jsp:include><br>
 </body>
 </html>

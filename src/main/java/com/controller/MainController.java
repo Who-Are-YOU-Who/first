@@ -23,14 +23,9 @@ public class MainController {
 		return "main";
 	}
 	
-	@RequestMapping("/login")
-	public String login() {
-		return "login";
+	//메인화면 redirect용
+	@RequestMapping(value = "/home")
+	public String mainRedirect() {
+		return "redirect:/";
 	}
-
-	@RequestMapping("/join")
-	public String join() {
-		return "join";
-	}
-	
 }

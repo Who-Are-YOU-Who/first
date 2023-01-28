@@ -9,12 +9,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Join us!</title>
+<title>Login</title>
+<c:if test="${not empty mesg}">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+alert("${mesg}");
+</script>
+</c:if>
 <meta charset="UTF-8" />
 </head>
 <body>
 <jsp:include page="common/header.jsp" flush="true"></jsp:include><br>
-<jsp:include page="member/join.jsp" flush="true"></jsp:include><br>
+<jsp:include page="login/loginForm.jsp" flush="true"></jsp:include><br>
 <jsp:include page="common/footer.jsp" flush="true"></jsp:include><br>
 </body>
 </html>
