@@ -10,6 +10,14 @@
 <html>
 <head>
 <title>Rate Us!</title>
+
+<c:if test="${not empty logoutmesg}">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+alert("${logoutmesg}");
+</script>
+</c:if>
+
 <meta charset="UTF-8" />
 </head>
 <body>

@@ -8,16 +8,24 @@
 
 <!-- menu-1 -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary" >
-  <div class="container-fluid" style="margin-left: 75%">
+  <div class="container-fluid" style="margin-left: 60%">
       <ul class="navbar-nav me-auto">
+      <c:if test="${mdto.userRole eq '1'}">
         <li class="nav-item">
-        <a class="nav-link" href="${contextPath}/login" style="font-size: 15px">LOGIN</a>
+        <a class="nav-link" href="${contextPath}/uploadRestaurant" style="font-size: 15px">업체 등록</a> 
+        </li>&emsp;&emsp;
+         <li class="nav-item">
+        <a class="nav-link" href="${contextPath}/modifyRestaurant" style="font-size: 15px">업체 수정</a> 
+        </li>&emsp;&emsp;
+      </c:if>
+        <li class="nav-item">
+        <a class="nav-link" href="${contextPath}/join" style="font-size: 15px">JOIN</a> 
         </li>&emsp;&emsp;
         <li class="nav-item">
 		<!-- 로그인 했을경우 : logout/ 로그인 안했을경우 : join -->
         <c:choose>
-        <c:when test="${empty mdto}">         
-        <a class="nav-link" href="${contextPath}/join" style="font-size: 15px">JOIN</a>
+        <c:when test="${empty mdto}">   
+        <a class="nav-link" href="${contextPath}/login" style="font-size: 15px">LOGIN</a>      
         </c:when>
         <c:otherwise>
 		<a class="nav-link" href="${contextPath}/logout" style="font-size: 15px">LOGOUT</a>

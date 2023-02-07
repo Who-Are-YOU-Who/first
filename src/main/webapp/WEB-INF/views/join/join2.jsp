@@ -117,6 +117,7 @@ $("#userId").on("keyup", function() {
 				console.log(data);
 				$("#userId").attr("class","form-control is-invalid");
 				$("#usedId").show();
+				//$("#userId").val("");
 			}
 		},
 		error : function(xhr, status, error) {

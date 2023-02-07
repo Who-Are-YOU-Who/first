@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RestaurantMapper">
+
+<!-- 분류1 목록 select -->
+<select id="allsort1" resultType="Res_sort1DTO">
+select * from res_sort1
+</select>
+
+<!-- 분류1번호로 분류2목록 select -->
+<select id="selectSort2" parameterType="String" resultType="Res_sort2DTO">
+select * from res_sort2 where sort1_num = #{sort1_num}
+</select>
+
+<!-- 업체 중복검사를 위해 이름과 주소로 select -->
+<select id="searchRestaurant" parameterType="hashmap" resultType="RestaurantDTO">
+select * from restaurant where res_name = #{res_name} and res_loc=#{res_loc}
+</select>
+
+<!-- 업체 등록 -->
+<insert id="insertRestaurant" parameterType="RestaurantDTO">
+insert into restaurant values(RES_NAME_SEQ.nextval,#{res_name},#{res_loc},#{sort1_num},#{sort2_num},#{introduction})
+</insert>
+
+<!-- 업체 번호 select -->
+<select id="getResNum" parameterType="hashmap" resultType="int">
+select res_num from restaurant where res_name = #{res_name} and res_loc=#{res_loc}
+</select>
+
+<!-- 이미지 등록 -->
+<insert id="insertImage" parameterType="ImagesDTO">
+insert into images values(#{res_num},#{img_rnk},#{img_route},#{userId},sysdate)
+</insert>
+
+<!-- 업체번호로 모든 이미지 select -->
+<select id="selectImages" parameterType="int" resultType="ImagesDTO">
+select * from images where res_num = #{res_num}
+</select>
+
+</mapper>
