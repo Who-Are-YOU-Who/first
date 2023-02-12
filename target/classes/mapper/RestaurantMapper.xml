@@ -39,4 +39,42 @@ insert into images values(#{res_num},#{img_rnk},#{img_route},#{userId},sysdate)
 select * from images where res_num = #{res_num}
 </select>
 
+<!-- 모든 업체 select -->
+<select id="selectAllRestaurant" resultType="RestaurantDTO">
+select * from restaurant
+</select>
+
+<!-- 모든 사진 select -->
+<select id="selectAllImages" resultType="ImagesDTO">
+select * from images
+</select>
+
+<!-- 리뷰페이지에서 각자 업체 다음사진 선택 -->
+<select id="selectNextImage" parameterType="hashmap" resultType="ImagesDTO">
+select * from images where res_num = #{res_num} and img_rnk= #{img_Rnk}
+</select>
+
+<!-- 업체 이미지 개수 세기 -->
+<select id="countImage" parameterType="String" resultType="int">
+select COUNT(*) from images where res_num = #{res_num}
+</select>
+
+<!-- 부류2번호list로 업체 선택하기 -->
+<select id="selectResBySort2" parameterType="List" resultType="RestaurantDTO">
+select * from restaurant where sort2_num in (
+ <foreach collection="list" item="item" separator=",">
+ #{item}
+ </foreach>
+ )
+</select>
+
+<select id="selectImgBySort2" parameterType="List" resultType="ImagesDTO">
+select * from images where sort2_num in (
+ <foreach collection="list" item="item" separator=",">
+ #{item}
+ </foreach>
+ )
+</select>
+
+
 </mapper>

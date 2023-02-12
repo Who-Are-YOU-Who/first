@@ -53,6 +53,46 @@ public class RestaurantService {
 		List<ImagesDTO> iList = dao.selectImages(res_num);
 		return iList;
 	}
+
+	public List<RestaurantDTO> selectAllRestaurant() {
+		List<RestaurantDTO> rList = dao.selectAllRestaurant();
+		return rList;
+	}
+
+	public List<ImagesDTO> selectAllImages() {
+		List<ImagesDTO> iList = dao.selectAllImages();
+		return iList;
+	}
+
+	public ImagesDTO selectNextImage(HashMap<String, String> map) {
+		ImagesDTO idto = dao.selectNextImage(map);
+		return idto;
+	}
+
+	public int countImage(String res_num) {
+		int imgCount = dao.countImage(res_num);
+		return imgCount;
+	}
+
+	public List<ImagesDTO> selectAllSort1() {
+		List<ImagesDTO> sort1List = dao.selectAllSort1();
+		return sort1List;
+	}
+
+	public List<ImagesDTO> selectAllSort2() {
+		List<ImagesDTO> sort2List = dao.selectAllSort2();
+		return sort2List;
+	}
+
+	public List<RestaurantDTO> selectResBySort2(List<String> chks2List) {
+		List<RestaurantDTO> rList = dao.selectResBySort2(chks2List);
+		return rList;
+	}
+
+	public List<ImagesDTO> selectImgBySort2(List<String> chks2List) {
+		List<ImagesDTO> iList = dao.selectImgBySort2(chks2List);
+		return iList;
+	}
 	
 	
 

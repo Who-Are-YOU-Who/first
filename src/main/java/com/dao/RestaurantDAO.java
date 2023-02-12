@@ -52,4 +52,44 @@ public class RestaurantDAO {
 		List<ImagesDTO> iList = template.selectList("RestaurantMapper.selectImages", res_num);
 		return iList;
 	}
+
+	public List<RestaurantDTO> selectAllRestaurant() {
+		List<RestaurantDTO> rList = template.selectList("RestaurantMapper.selectAllRestaurant");
+		return rList;
+	}
+
+	public List<ImagesDTO> selectAllImages() {
+		List<ImagesDTO> iList = template.selectList("RestaurantMapper.selectAllImages");
+		return iList;
+	}
+
+	public ImagesDTO selectNextImage(HashMap<String, String> map) {
+		ImagesDTO idto = template.selectOne("RestaurantMapper.selectNextImage", map);
+		return idto;
+	}
+
+	public int countImage(String res_num) {
+		int imgCount = template.selectOne("RestaurantMapper.countImage", res_num);
+		return imgCount;
+	}
+
+	public List<ImagesDTO> selectAllSort1() {
+		List<ImagesDTO> sort1List = template.selectList("RestaurantMapper.selectAllSort1");
+		return sort1List;
+	}
+
+	public List<ImagesDTO> selectAllSort2() {
+		List<ImagesDTO> sort2List = template.selectList("RestaurantMapper.selectAllSort2");
+		return sort2List;
+	}
+
+	public List<RestaurantDTO> selectResBySort2(List<String> chks2List) {
+		List<RestaurantDTO> rList = template.selectList("RestaurantMapper.selectResBySort2",chks2List);
+		return rList;
+	}
+
+	public List<ImagesDTO> selectImgBySort2(List<String> chks2List) {
+		List<ImagesDTO> iList = template.selectList("RestaurantMapper.selectImgBySort2",chks2List);
+		return null;
+	}
 }

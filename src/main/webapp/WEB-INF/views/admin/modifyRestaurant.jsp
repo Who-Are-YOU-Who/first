@@ -19,7 +19,7 @@
  	<table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">No</th>
+      <th scope="col">No.</th>
       <th scope="col">업체명</th>
       <th scope="col">위치</th>
       <th scope="col">분류</th>
@@ -33,27 +33,20 @@
       <td>Column content</td>
     </tr>
   </tbody>
-</table>
+    </table>
   	 
-  		<div class="btn-group" role="group">
-    	 <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-    		
-    		<div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
-     		 <a class="dropdown-item" href="#">Dropdown link</a>
-     		 <a class="dropdown-item" href="#">Dropdown link</a>
-    		</div>
-  		</div>
-	</div>
+  		
+</div>
 
   	
-</div>
+
  
  
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 $("#searchName").on("click", function() {
-	var res_name = $("#res_name"),val();
+	var res_name = $("#res_name").val();
 	$.ajax({
 		type : "post",
 		url : "${contextPath}/selectByName",
@@ -64,10 +57,13 @@ $("#searchName").on("click", function() {
 		success : function(data, status, xhr) {
 			console.log("success============")
 			
+		},
+		error : function(xhr, status, error) {
+			console.log(error);
 		}
-	})
+	})//end ajax
 	
-});
+});//이름으로 업체 가져오기
 
 
 

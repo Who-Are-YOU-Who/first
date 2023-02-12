@@ -58,7 +58,7 @@
           <a class="nav-link" href="#">RANK</a>
         </li>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
         <li class="nav-item">
-          <a class="nav-link" href="#">REVIEWS</a>
+          <a class="nav-link" href="${contextPath}/reviewsMain">REVIEWS</a>
         </li>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
         <li class="nav-item">
           <a class="nav-link" href="#">ABOUT</a>

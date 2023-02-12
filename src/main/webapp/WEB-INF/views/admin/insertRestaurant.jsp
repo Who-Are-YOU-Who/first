@@ -167,6 +167,9 @@ function selectSort1(sort1_num) {
             $("#sort2div").append(data);
 			$("#sort2div").show();
 			$("#sort1").val(sort1_num);
+		},
+		error : function(xhr, status, error) {
+			console.log(error);
 		}
 	}); //end ajax
 	
