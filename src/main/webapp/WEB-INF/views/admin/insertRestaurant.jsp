@@ -210,13 +210,9 @@ $("form").on("submit", function() {
 		console.log("소개 공백");
 		$("#res_introduction").focus();
 	}
-	else if(!checkEmpty($("#res_introduction").val(), "소개")){ /* 식당 소개 공백검사 */
-		console.log("소개 공백");
-		$("#res_introduction").focus();
-		
-	}else if(res_introduction.value.length > 100){/* 소개글 글자수검사 */
+	else if(res_introduction.value.length > 200){/* 소개글 글자수검사 */
 		console.log("글자수 제한");
-		alert("최대 글자 수는 100자 입니다.");
+		alert("최대 글자 수는 200자 입니다.");
 		
 	}
 	

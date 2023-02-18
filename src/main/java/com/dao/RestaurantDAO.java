@@ -92,4 +92,19 @@ public class RestaurantDAO {
 		List<ImagesDTO> iList = template.selectList("RestaurantMapper.selectImgBySort2",chks2List);
 		return null;
 	}
+
+	public List<RestaurantDTO> selectResByName(String res_name) {
+		List<RestaurantDTO> rList = template.selectList("RestaurantMapper.selectResByName",res_name);
+		return rList;
+	}
+
+	public RestaurantDTO selectResByNum(String res_num) {
+		RestaurantDTO rdto = template.selectOne("RestaurantMapper.selectResByNum", res_num);
+		return rdto;
+	}
+
+	public int deleteImg(HashMap<String, Integer> map) {
+		int n = template.delete("RestaurantMapper.deleteImg", map);
+		return n;
+	}
 }

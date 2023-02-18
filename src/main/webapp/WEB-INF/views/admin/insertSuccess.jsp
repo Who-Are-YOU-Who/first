@@ -26,10 +26,9 @@ ${iList}
     
   <br>
     <p class="card-text">한식/고기</p>
-    <p class="card-text">👍100/👎18</p>
   </div>
    <div class="card-footer text-muted">
-    2 days ago
+  
   </div>
 </div>
 

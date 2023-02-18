@@ -68,6 +68,7 @@ select * from restaurant where sort2_num in (
  )
 </select>
 
+<!-- res_num List로 이미지 선택 -->
 <select id="selectImgBySort2" parameterType="List" resultType="ImagesDTO">
 select * from images where sort2_num in (
  <foreach collection="list" item="item" separator=",">
@@ -76,5 +77,18 @@ select * from images where sort2_num in (
  )
 </select>
 
+<!-- res_name으로 업체선택 -->
+<select id="selectResByName" parameterType="String" resultType="RestaurantDTO">
+select * from restaurant where res_name = #{res_name}
+</select>
+
+<!-- res_num으로 업체선택 -->
+<select id="selectResByNum" parameterType="String" resultType="RestaurantDTO">
+select * from restaurant where res_num = #{res_num}
+</select>
+
+<delete id="deleteImg" parameterType="hashmap">
+delete from images where res_num = #{res_num} and img_rnk = #{img_rnk}
+</delete>
 
 </mapper>

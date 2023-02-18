@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,6 +87,8 @@ public class AdminController {
 		
 	}
 	
+	
+	//업체 등록 폼 제출 후 저장
 	@RequestMapping(value="/insertRestaurant", method=RequestMethod.POST)
 	public ModelAndView insertRestaurant(HttpSession session, @RequestParam String res_name, String res_loc, String sort1, String sort2, String res_introduction,  @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageList,  HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
@@ -164,13 +167,74 @@ public class AdminController {
 		return mav;
 	}
 	
-	@RequestMapping("/modifyRestaurant")
+	//업체 수정
+	@RequestMapping(value= "/modifyRestaurant")
 	public ModelAndView modifyRestaurant(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("modifyRestaurant");
 		return mav;
 	}
 	
+	//업체수정페이지 식당이름 검색으로 같은이름인 식당 list뽑기
+	@RequestMapping(value="/selectByName")
+	public ModelAndView selectByName(@RequestParam String res_name) {
+		ModelAndView mav = new ModelAndView();
+		List<RestaurantDTO> list = new ArrayList<>();
+		list = service.selectResByName(res_name);
+		mav.addObject("rList", list);
+		mav.setViewName("modifyResList");
+		
+		return mav;
+	}
 	
+	//선택한 업체 모든정보 가져오기
+	@RequestMapping(value="/showRestaurant")
+	public ModelAndView showRestaurant (@RequestParam String res_num) {
+		System.out.println("수정할 업체 번호 : " +res_num);
+		ModelAndView mav = new ModelAndView();
+		
+		RestaurantDTO rdto = new RestaurantDTO();  //restaurantDTO
+		rdto = service.selectResByNum(res_num);
+		
+		List <Res_sort1DTO> s1List = new ArrayList<>();  //sort1
+		s1List = service.allsort1();
+		List<Res_sort2DTO> s2List = new ArrayList<>();  //sort2
+		String sort1_num= Integer.toString(rdto.getSort1_num() ) ;
+		s2List = service.selectSort2(sort1_num);
+		
+		int rnum = Integer.parseInt(res_num);
+		List<ImagesDTO> iList = new ArrayList<>();  
+		iList = service.selectImages(rnum);
+		
+		mav.addObject("rdto", rdto);
+		mav.addObject("s1List", s1List);
+		mav.addObject("s2List", s2List);
+		mav.addObject("iList", iList);
+		mav.setViewName("showResDTO");
+		
+		return mav;
+	}
+	
+	@RequestMapping("/deleteImg")
+	public @ResponseBody String deleteImg(@RequestParam int res_num, int img_rnk) {
+		System.out.println("res_num : "+ res_num);
+		System.out.println("img_rnk : "+ img_rnk);
+		
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("res_num", res_num);
+		map.put("img_rnk", img_rnk);
+		int n = service.deleteImg(map);
+		
+		if(n != 0) {
+			return "1";
+		}else {
+			return "0";
+		}
+	}
+	
+	@RequestMapping("/updateRestaurant")
+	public void updateRestaurant(HttpSession session, @RequestParam String res_name, String res_loc, String sort1, String sort2, String res_introduction,  @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageList,  HttpServletRequest req) {
+		System.out.println("업데이트 성공");
+	}
 
 }
