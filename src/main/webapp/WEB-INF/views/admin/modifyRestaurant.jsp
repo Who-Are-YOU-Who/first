@@ -109,9 +109,6 @@ $("form").on("submit", function() {
 		console.log("분류2 공백");
 		$("#sort2").focus();
 		
-	}else if(!checkEmpty($("#imageFiles").val(), "사진")){ /* 사진 공백 검사 */
-		console.log("사진 공백");
-		$("#imageFiles").focus();
 	}
 	else if(!checkEmpty($("#res_introduction").val(), "소개")){ /* 식당 소개 공백검사 */
 		console.log("소개 공백");

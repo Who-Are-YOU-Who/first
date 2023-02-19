@@ -91,4 +91,17 @@ select * from restaurant where res_num = #{res_num}
 delete from images where res_num = #{res_num} and img_rnk = #{img_rnk}
 </delete>
 
+<delete id="deleteRestaurant" parameterType="int">
+delete from restaurant where res_num = #{res_num}
+</delete>
+
+<update id="updateRes" parameterType="RestaurantDTO">
+update restaurant set res_name = #{res_name} , res_loc = #{res_loc}, sort1_num = #{sort1_num}, sort2_num = #{sort2_num},
+introduction = #{introduction} where res_num = #{res_num}
+</update>
+
+<select id="lastImgRnk" parameterType="int" resultType="int">
+select max(img_rnk) from images where res_num= #{res_num}
+</select>
+
 </mapper>

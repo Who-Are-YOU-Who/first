@@ -7,10 +7,20 @@
   <c:forEach  items="${rList}" var="rList" varStatus="status">
 
 	<tr class="table-active" id="res${rList.res_num}" onclick="showRestaurant(${rList.res_num})">
+	
       <th scope="row" >${status.count}</th>
+      
       <td>${rList.res_name}</td>
+      
       <td>${rList.res_loc}</td>
-      <td>${rList.sort1_num}</td>
+      
+      <td>
+      <c:forEach items="${s1}" var="s1" varStatus="status" >
+      <c:if test="${rList.sort1_num == s1.sort1_num}" >
+      ${s1.sort1_name}
+      </c:if>
+      </c:forEach>
+      </td>
 	</tr>
 	
  </c:forEach>		

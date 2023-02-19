@@ -181,7 +181,12 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView();
 		List<RestaurantDTO> list = new ArrayList<>();
 		list = service.selectResByName(res_name);
+		
+		List <Res_sort1DTO> s1List = new ArrayList<>();  //sort1
+		s1List = service.allsort1();
+		
 		mav.addObject("rList", list);
+		mav.addObject("s1", s1List);
 		mav.setViewName("modifyResList");
 		
 		return mav;
@@ -232,9 +237,80 @@ public class AdminController {
 		}
 	}
 	
+	@RequestMapping("/deleteRestaurant")
+	public String deleteRestaurant(@RequestParam int res_num) {
+		System.out.println("res_num : "+ res_num);
+		int n = service.deleteRestaurant(res_num);
+		if(n != 0) {
+			System.out.println("업체 삭제 성공!");
+			return "deleteResSuccess";
+		}else {
+			System.out.println("업체 삭제 실패!");
+			//redirect:/home
+			return "updateResFail";
+		}
+	}
+	
 	@RequestMapping("/updateRestaurant")
-	public void updateRestaurant(HttpSession session, @RequestParam String res_name, String res_loc, String sort1, String sort2, String res_introduction,  @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageList,  HttpServletRequest req) {
-		System.out.println("업데이트 성공");
+	public ModelAndView updateRestaurant(HttpSession session, @RequestParam int res_num,  String res_name, String res_loc, int sort1, int sort2, String res_introduction,  @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageList,  HttpServletRequest req) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("업데이트 Controller 실행======");
+		MemberDTO mdto = (MemberDTO) session.getAttribute("mdto");
+
+		RestaurantDTO rdto = new RestaurantDTO(); 
+		rdto.setRes_num(res_num);
+		rdto.setRes_name(res_name);
+		rdto.setRes_loc(res_loc);
+		rdto.setSort1_num(sort1);
+		rdto.setSort2_num(sort2);
+		rdto.setIntroduction(res_introduction);
+		
+		 //업로드 파일 저장 location
+	      String location = "C://eclipse//first_spring//workspace//myFirstProject//src//main//webapp//resources//image";
+	      int result = 0;
+	      try {
+	         File folder = new File(location);
+	         if (!folder.exists()) folder.mkdirs();     
+	         
+	         ImagesDTO idto = new ImagesDTO();
+	         
+	         int nextImgNum = service.lastImgRnk(res_num)+1;
+
+			 for(int i = 0 ; i <imageList.size(); i++) {
+				 System.out.println("image 저장 for문 실행========");
+				 File destination = new File(location + File.separator + imageList.get(i).getOriginalFilename());
+				 imageList.get(i).transferTo(destination);
+				 
+				 //파일 이름 변경 (식당이름+이미지번호)
+				 File newFile = new File(location + File.separator + res_name + (nextImgNum+i)+".jpg");
+				 destination.renameTo(newFile);
+				 
+				 System.out.println("변경 된 파일명 : "+ destination.getName());
+				 
+		         result++;
+		         idto.setRes_num(res_num);
+				 idto.setImg_rnk(nextImgNum+i);
+				 idto.setImg_route(res_name+(nextImgNum+i)+".jpg");
+				 idto.setUserId(mdto.getUserId());
+				 
+				 int s = service.insertImage(idto);
+				 System.out.println("image insert "+ s+"번 실행 성공 ======");
+			 }
+	        System.out.println("result ==== "+ result);
+	        } catch (Exception e){
+	           e.getMessage();
+	        }
+		
+		int n = service.updateRes(rdto);
+		if(n != 0) {
+			System.out.println("업데이트 성공!");
+			mav.setViewName("updateResSuccess");
+			return mav;
+		}else {
+			System.out.println("업데이트 실패!");
+			mav.setViewName("updateResFail");
+			return mav;
+		}
 	}
 
 }

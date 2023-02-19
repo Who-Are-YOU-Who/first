@@ -107,4 +107,19 @@ public class RestaurantDAO {
 		int n = template.delete("RestaurantMapper.deleteImg", map);
 		return n;
 	}
+
+	public int deleteRestaurant(int res_num) {
+		int n = template.delete("RestaurantMapper.deleteRestaurant", res_num);
+		return n;
+	}
+
+	public int updateRes(RestaurantDTO rdto) {
+		int n = template.update("RestaurantMapper.updateRes", rdto);
+		return n;
+	}
+
+	public int lastImgRnk(int res_num) {
+		int n = template.selectOne("RestaurantMapper.lastImgRnk", res_num);
+		return n;
+	}
 }

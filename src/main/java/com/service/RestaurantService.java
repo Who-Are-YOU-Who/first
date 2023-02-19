@@ -108,6 +108,21 @@ public class RestaurantService {
 		int n = dao.deleteImg(map);
 		return n;
 	}
+
+	public int deleteRestaurant(int res_num) {
+		int n = dao.deleteRestaurant(res_num);
+		return n;
+	}
+
+	public int updateRes(RestaurantDTO rdto) {
+		int n = dao.updateRes(rdto);
+		return n;
+	}
+
+	public int lastImgRnk(int res_num) {
+		int n = dao.lastImgRnk(res_num);
+		return n;
+	}
 	
 	
 

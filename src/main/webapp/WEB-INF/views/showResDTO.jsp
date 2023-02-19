@@ -4,7 +4,6 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <c:set var="contextPath" value="<%= request.getContextPath()%>"></c:set>
 
-
 <label class="col-form-label mt-4" for="inputDefault" >업체명</label>
 <input type="text" class="form-control" id="res_name" name="res_name" value="${rdto.res_name}">
 <input type="hidden" id="res_num" name="res_num" value="${rdto.res_num}">
@@ -192,12 +191,20 @@
 </div>
 
 <br><br>
-<div class="d-grid gap-2" style="width: 400px; height: 50px; margin: auto;">
-  <button class="btn btn-lg btn-primary" type="submit">수정 완료</button>
-  </div>
+
+  <button class="btn btn-primary" type="submit" style="float: left; width: 300px">수정 완료</button>
+  <button type="button" class="btn btn-secondary" style="width:200px; float: right;" onclick="deleteRestaurant(${rdto.res_num})">업체 삭제</button>
+
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
+  
+  function deleteRestaurant(res_num) {
+	
+	  location.href="${contextPath}/deleteRestaurant?res_num="+res_num;
+}
+  
+  
   function selectSort1(sort1_num) {
 	   
 	    $("input[type=radio][name=sort1radio]").prop("checked",false);  //모든 radio 체크 해제
