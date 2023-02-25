@@ -1,4 +1,6 @@
 <%@page import="org.apache.taglibs.standard.tag.common.xml.ForEachTag"%>
+<%@page import="java.util.*" %>
+<%@page import="com.dto.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6,63 +8,88 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>  
 <c:set var="contextPath" value="<%= request.getContextPath()%>"></c:set>
 
+ 
+<div style="width: 100%;">
 <div id="AllsortDiv" class="col-md-6" style="margin: auto;">
 <div id="sort1Div">  <!-- 분류1 -->
-<c:forEach var="s1" items="${s1List}" varStatus = "status">
-<button id="sort1_${s1.sort1_num}" type="button" class="btn btn-primary btn-sm" onclick="selectSort1(${s1.sort1_num})">${s1.sort1_name}</button>
-</c:forEach>
+
 </div>
 <br>
 <div id="sort2Div"> <!-- 분류2 -->
 
 </div>
 </div>
+<br><br>
+<div id="resContainer"  class="col-md-10" style="margin: auto;">
 
-<div id="resContainer">
-<c:forEach items="${rList}" var="rList" varStatus="status">
+<%
+List <DisplayRestaurantDTO> rList =(List <DisplayRestaurantDTO>)request.getAttribute("rList");
 
-<div class="card border-primary mb-3" style="max-width: 20rem;">
-  <div class="card-header">${rList.res_name}</div>
+System.out.println("jsp에서=="+rList);
+ %>
+ 
+ 
+ <% for(int i =0 ; i< rList.size() ; i++) {  %>
+
+<div class="card border-primary mb-3" style="max-width: 20rem; float: left; margin-left: 10px; margin-right: 10px;">
+  <div class="card-header"><a href="${contextPath}/eachReview?res_num="><%=rList.get(i).getRes_name() %></a></div>
   <div class="card-body">
 	<ul class="pagination">
 	<li>
-		<c:forEach  var="iList" items="${iList}" varStatus="status"> <!-- 이미지 for each -->
+	
+		
+<% 	for (int j = 0 ; j < rList.get(i).getImageList().size()  ; j++) { %>		
 
-		<c:if test="${rList.res_num==iList.res_num}">  <!-- res_num이 일치할 때 -->
+<% if (j == 0 ){ %>
+	<a id="<%=i%>img<%=j %>" href="${contextPath}/eachReview?res_num=<%=rList.get(i).getRes_num()%>" class="imgAtag" >
+	<img src="${contextPath}/resources/image/<%= rList.get(i).getImageList().get(j).getImg_route() %>" style=" width: 220px; height: 200px; margin-left: 16px">
+	</a>
+<% } else { %>
+	<a id="<%=i%>img<%=j %>" href="${contextPath}/eachReview?res_num=<%=rList.get(i).getRes_num()%>" style="display: none;" class="imgAtag">
+	<img src="${contextPath}/resources/image/<%= rList.get(i).getImageList().get(j).getImg_route() %>" style=" width: 220px; height: 200px; margin-left: 16px">
+	</a>
+<%} %>
 	
-	<div id="imgChange${rList.res_num}">
+<% } %>	
 	
-	<c:if test="${iList.img_rnk==0}"> <!-- 이미지 순번이 0번일 때 -->
-	<div id="resImageDiv">
-	<input type="hidden" id="imgRank" value="0">
-	<img id="${rList.res_num}nowImage" src="${contextPath}/resources/image/${iList.img_route}" style=" width: 220px; height: 200px; margin-left: 16px">
-	</div>
-	</c:if>
-	
-	</div>
-	
-	
-		</c:if>
-		</c:forEach>
 	</li>
     <li style="margin-top: 60%" >
-      <a href="javascript:nextImage(${rList.res_num});" style="text-decoration-line : none; font-size:x-large;" >▶️</a>
+      <a href="javascript:nextImage(<%=i %>);" style="text-decoration-line : none; font-size:x-large;" >▶️</a>
     </li>
 	</ul>    
     
   <br>
-    <p class="card-text">한식/고기</p>
-    <p class="card-text">👍100/👎18</p>
+     <p class="card-text">
+      <%=rList.get(i).getSORT1_NAME() %> / <%=rList.get(i).getSORT2_NAME() %>
+     </p> 
+     <%int up =0;
+ 	int down =0;
+ 	String recent ="등록된 후기 없음";
+ 	for(int k=0; k < rList.get(i).getRateList().size();k++){
+ 		if(rList.get(i).getRateList().get(0)!=null){
+ 			recent = rList.get(i).getRateList().get(0).getUpdate_date();
+ 		}
+ 		
+    	 if(rList.get(i).getRateList().get(k).getRating()==0){
+    		 up++;
+    	 }else{
+    		 down++;
+    	 }
+     }%>
+    
+    <p class="card-text">👍<%=up %> / 👎<%=down %></p>
   </div>
    <div class="card-footer text-muted">
-    00 days ago
+ 		<%=recent %>
   </div>
 </div>
+<input type="hidden" id="<%=i%>img_rnk" value="0" >
+<input type="hidden" id="<%=i%>img_rnk_max" value="<%=rList.get(i).getImageList().size()%>">
+<%} %>
 
-
-</c:forEach>
 </div>
 
+</div>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -145,46 +172,26 @@ function selectSort2(sort2_num) {
 
 
 function nextImage(res_num) {
-	var imgRnk = $("#imgRank").val();
-	console.log("현재 사진 : "+ imgRnk);
-	imgRnk++;
-	console.log("다음 사진 : "+ imgRnk);
 	
-	/*	$.ajax({
-			type : "get",
-			url : "${contextPath}/nextImage",
-			data :{
-				res_num : res_num,
-				imgRnk : imgRnk
-			},
-			dataType : "JSON",
-			success : function(data,status,xhr) {
-				console.log(data);
-				console.log(data.img_route);
-				console.log(data.rnk);
-				
-				var img_route = data.img_route;
-				var rkn = data.rnk;
-				
-				if(img_route !=""){
-					console.log("이미지 바꾸기=====");
-					$("#imgChange"+res_num).empty();
-					$("#"+res_num+"nowImage").attr("src",img_route);
-					$("#imgRank").val(rkn)//순위 넣기
-				}else{
-					console.log("다음이미지 없음=====")
-					imgRnk--;
-					$("#imgRank").val(imgRnk);
-				}
-				
-			},
-			error : function(xhr, status, error) {
-				console.log(error);
-			}
-			
-		})//end ajax*/
+	var now = $("#"+res_num+"img_rnk").val(); 
+	var next = parseInt(now)+1;
+	var max = parseInt($("#"+res_num+"img_rnk_max").val());
+	
+	console.log("now="+now);
+	console.log("next="+next);
+	console.log("res_num="+res_num);
+	
+	if(next >= max){ //다음이미지 없을 경우
+		$("#"+res_num+"img_rnk").val(0);
+		$("#"+res_num+"img"+now).hide();
+		$("#"+res_num+"img"+0).show();
 		
-//	console.log($("#"+res_num+"nowImage").val());
+	}else{
+		$("#"+res_num+"img_rnk").val(next);
+		$("#"+res_num+"img"+now).hide();
+		$("#"+res_num+"img"+next).show();
+		
+	}
 	
 	
 	}

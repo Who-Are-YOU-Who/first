@@ -9,6 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 select * from res_sort1
 </select>
 
+<!-- 분류2 목록 select -->
+<select id="allsort2" resultType="Res_sort2DTO">
+select * from res_sort2
+</select>
+
 <!-- 분류1번호로 분류2목록 select -->
 <select id="selectSort2" parameterType="String" resultType="Res_sort2DTO">
 select * from res_sort2 where sort1_num = #{sort1_num}
@@ -40,8 +45,20 @@ select * from images where res_num = #{res_num}
 </select>
 
 <!-- 모든 업체 select -->
-<select id="selectAllRestaurant" resultType="RestaurantDTO">
-select * from restaurant
+<select id="selectAllRestaurant" resultType="DisplayRestaurantDTO">
+select a.RES_NUM, 
+a.RES_NAME, 
+a.RES_LOC, 
+a.SORT1_NUM, 
+b.SORT1_NAME, 
+a.SORT2_NUM, 
+c.SORT2_NAME,
+a.INTRODUCTION 
+
+
+ from restaurant a, res_sort1 b , res_sort2 c
+ where a.SORT1_NUM = b.SORT1_NUM
+ and a.SORT2_NUM =  c.SORT2_NUM 
 </select>
 
 <!-- 모든 사진 select -->
@@ -87,21 +104,65 @@ select * from restaurant where res_name = #{res_name}
 select * from restaurant where res_num = #{res_num}
 </select>
 
+<!-- 이미지 한개 삭제 -->
 <delete id="deleteImg" parameterType="hashmap">
 delete from images where res_num = #{res_num} and img_rnk = #{img_rnk}
 </delete>
 
+<!-- 모든 이미지 삭제 -->
+<delete id="deleteAllImages" parameterType="int">
+delete from images where res_num = #{res_num}
+</delete>
+
+<!-- 업체삭제 -->
 <delete id="deleteRestaurant" parameterType="int">
 delete from restaurant where res_num = #{res_num}
 </delete>
 
+<!-- 업체 수정 -->
 <update id="updateRes" parameterType="RestaurantDTO">
 update restaurant set res_name = #{res_name} , res_loc = #{res_loc}, sort1_num = #{sort1_num}, sort2_num = #{sort2_num},
 introduction = #{introduction} where res_num = #{res_num}
 </update>
 
+<!-- 이미지 순서 마지막숫자 가져오기 -->
 <select id="lastImgRnk" parameterType="int" resultType="int">
 select max(img_rnk) from images where res_num= #{res_num}
+</select>
+
+<!-- 후기insert -->
+<insert id="insertRate" parameterType="rateDTO">
+insert into rate values(#{userId},#{res_num},#{rating},#{comments},systimestamp)
+</insert>
+
+<!-- 후기select -->
+<select id="selectRate" parameterType="int" resultType="rateDTO">
+select userid, res_num, rating, comments, update_date from rate where res_num = #{res_num} order by update_date desc
+</select>
+
+<!-- 스크랩insert -->
+<insert id="scrabAdd" parameterType="hashmap">
+insert into scrab values(#{userId},#{res_num},systimestamp)
+</insert>
+
+<!-- 스크랩delete -->
+<delete id="scrabCancle" parameterType="hashmap">
+delete from scrab where res_num=#{res_num} and userId=#{userId}
+</delete>
+
+<select id="resByNum" parameterType="int" resultType="DisplayRestaurantDTO">
+select a.RES_NUM, 
+a.RES_NAME, 
+a.RES_LOC, 
+a.SORT1_NUM, 
+b.SORT1_NAME, 
+a.SORT2_NUM, 
+c.SORT2_NAME,
+a.INTRODUCTION 
+
+ from restaurant a, res_sort1 b , res_sort2 c
+ where a.res_NUM = #{res_num} and a.SORT1_NUM = b.SORT1_NUM
+ and a.SORT2_NUM =  c.SORT2_NUM 
 </select>
 
 </mapper>

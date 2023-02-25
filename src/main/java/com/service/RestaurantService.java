@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dao.RestaurantDAO;
+import com.dto.DisplayRestaurantDTO;
 import com.dto.ImagesDTO;
+import com.dto.RateDTO;
 import com.dto.Res_sort1DTO;
 import com.dto.Res_sort2DTO;
 import com.dto.RestaurantDTO;
@@ -54,8 +56,8 @@ public class RestaurantService {
 		return iList;
 	}
 
-	public List<RestaurantDTO> selectAllRestaurant() {
-		List<RestaurantDTO> rList = dao.selectAllRestaurant();
+	public List<DisplayRestaurantDTO> selectAllRestaurant() {
+		List<DisplayRestaurantDTO> rList = dao.selectAllRestaurant();
 		return rList;
 	}
 
@@ -123,6 +125,38 @@ public class RestaurantService {
 		int n = dao.lastImgRnk(res_num);
 		return n;
 	}
+
+	public List<Res_sort2DTO> allsort2() {
+		List<Res_sort2DTO> s2list = dao.allsort2();
+		return s2list;
+	}
+
+	public int insertRate(RateDTO rateDTO) {
+		int n = dao.insertRate(rateDTO);
+		return n;
+	}
+
+	public List<RateDTO> selectRate(int res_num) {
+		 List<RateDTO> rateList = dao.selectRate(res_num);
+		return rateList;
+	}
+
+	public int scrabAdd(HashMap<String, String> map) {
+		int n = dao.scrabAdd(map);
+		return n;
+	}
+
+	public int scrabCancle(HashMap<String, String> map) {
+		int n = dao.scrabCancle(map);
+		return n;
+	}
+
+	public DisplayRestaurantDTO resByNum(int res_num) {
+		DisplayRestaurantDTO rdto = dao.resByNum(res_num);
+		return rdto;
+	}
+
+	
 	
 	
 

@@ -220,6 +220,7 @@ public class AdminController {
 		return mav;
 	}
 	
+	//업체 이미지 삭제
 	@RequestMapping("/deleteImg")
 	public @ResponseBody String deleteImg(@RequestParam int res_num, int img_rnk) {
 		System.out.println("res_num : "+ res_num);
@@ -237,10 +238,13 @@ public class AdminController {
 		}
 	}
 	
+	//업체 삭제
 	@RequestMapping("/deleteRestaurant")
 	public String deleteRestaurant(@RequestParam int res_num) {
 		System.out.println("res_num : "+ res_num);
 		int n = service.deleteRestaurant(res_num);
+		
+		
 		if(n != 0) {
 			System.out.println("업체 삭제 성공!");
 			return "deleteResSuccess";
@@ -251,6 +255,7 @@ public class AdminController {
 		}
 	}
 	
+	//업체 수정 폼 제출
 	@RequestMapping("/updateRestaurant")
 	public ModelAndView updateRestaurant(HttpSession session, @RequestParam int res_num,  String res_name, String res_loc, int sort1, int sort2, String res_introduction,  @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageList,  HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
@@ -274,7 +279,7 @@ public class AdminController {
 	         
 	         ImagesDTO idto = new ImagesDTO();
 	         
-	         int nextImgNum = service.lastImgRnk(res_num)+1;
+	         int nextImgNum = service.lastImgRnk(res_num)+1;  //이미지 rnk마지막 번호 이어서 사진 저장
 
 			 for(int i = 0 ; i <imageList.size(); i++) {
 				 System.out.println("image 저장 for문 실행========");

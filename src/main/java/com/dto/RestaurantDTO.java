@@ -9,7 +9,11 @@ public class RestaurantDTO extends ImagesDTO{
 	private String res_name;
 	private String res_loc;
 	private int sort1_num;
+	private String sort1_num_name;
+	
+	
 	private int sort2_num;
+	private String sort2_num_name;
 	private String introduction;
 	
 	public RestaurantDTO() {

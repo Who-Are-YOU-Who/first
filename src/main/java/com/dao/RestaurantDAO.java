@@ -7,7 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dto.DisplayRestaurantDTO;
 import com.dto.ImagesDTO;
+import com.dto.RateDTO;
 import com.dto.Res_sort1DTO;
 import com.dto.Res_sort2DTO;
 import com.dto.RestaurantDTO;
@@ -53,8 +55,8 @@ public class RestaurantDAO {
 		return iList;
 	}
 
-	public List<RestaurantDTO> selectAllRestaurant() {
-		List<RestaurantDTO> rList = template.selectList("RestaurantMapper.selectAllRestaurant");
+	public List<DisplayRestaurantDTO> selectAllRestaurant() {
+		List<DisplayRestaurantDTO> rList = template.selectList("RestaurantMapper.selectAllRestaurant");
 		return rList;
 	}
 
@@ -109,7 +111,9 @@ public class RestaurantDAO {
 	}
 
 	public int deleteRestaurant(int res_num) {
-		int n = template.delete("RestaurantMapper.deleteRestaurant", res_num);
+		int n1 = template.delete("RestaurantMapper.deleteAllImages", res_num);
+		int n2 = template.delete("RestaurantMapper.deleteRestaurant", res_num);
+		int n = n1+n2;
 		return n;
 	}
 
@@ -122,4 +126,36 @@ public class RestaurantDAO {
 		int n = template.selectOne("RestaurantMapper.lastImgRnk", res_num);
 		return n;
 	}
+
+	public List<Res_sort2DTO> allsort2() {
+		List<Res_sort2DTO> s2list = template.selectList("RestaurantMapper.allsort2");
+		return s2list;
+	}
+
+	public int insertRate(RateDTO rateDTO) {
+		int n = template.insert("RestaurantMapper.insertRate", rateDTO);
+		return n;
+	}
+
+	public List<RateDTO> selectRate(int res_num) {
+		List<RateDTO> rateList = template.selectList("RestaurantMapper.selectRate", res_num);
+		return rateList;
+	}
+
+	public int scrabAdd(HashMap<String, String> map) {
+		int n = template.insert("RestaurantMapper.scrabAdd", map);
+		return n;
+	}
+
+	public int scrabCancle(HashMap<String, String> map) {
+		int n = template.delete("RestaurantMapper.scrabCancle", map);
+		return n;
+	}
+
+	public DisplayRestaurantDTO resByNum(int res_num) {
+		DisplayRestaurantDTO rdto = template.selectOne("RestaurantMapper.resByNum", res_num);
+		return rdto;
+	}
+
+	
 }
