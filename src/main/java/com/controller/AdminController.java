@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -220,23 +219,7 @@ public class AdminController {
 		return mav;
 	}
 	
-	//업체 이미지 삭제
-	@RequestMapping("/deleteImg")
-	public @ResponseBody String deleteImg(@RequestParam int res_num, int img_rnk) {
-		System.out.println("res_num : "+ res_num);
-		System.out.println("img_rnk : "+ img_rnk);
-		
-		HashMap<String, Integer> map = new HashMap<>();
-		map.put("res_num", res_num);
-		map.put("img_rnk", img_rnk);
-		int n = service.deleteImg(map);
-		
-		if(n != 0) {
-			return "1";
-		}else {
-			return "0";
-		}
-	}
+	
 	
 	//업체 삭제
 	@RequestMapping("/deleteRestaurant")
@@ -257,10 +240,20 @@ public class AdminController {
 	
 	//업체 수정 폼 제출
 	@RequestMapping("/updateRestaurant")
-	public ModelAndView updateRestaurant(HttpSession session, @RequestParam int res_num,  String res_name, String res_loc, int sort1, int sort2, String res_introduction,  @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageList,  HttpServletRequest req) {
+	public ModelAndView updateRestaurant(HttpSession session, @RequestParam int res_num,  String res_name, String res_loc, int sort1, int sort2, String res_introduction, String delImg,  @RequestParam(value = "imageFiles", required = false) List<MultipartFile> imageList,  HttpServletRequest req) {
 		ModelAndView mav = new ModelAndView();
 		System.out.println("업데이트 Controller 실행======");
 		MemberDTO mdto = (MemberDTO) session.getAttribute("mdto");
+		
+		if(delImg!=""||delImg!=null) {
+			
+			  if(deleteImg(delImg,res_num)) { 
+				   System.out.println("이미지 삭제 성공====");
+			   }else{
+				   System.out.println("이미지 삭제 실패====");
+			   };
+			
+		}
 
 		RestaurantDTO rdto = new RestaurantDTO(); 
 		rdto.setRes_num(res_num);
@@ -318,4 +311,24 @@ public class AdminController {
 		}
 	}
 
+		public boolean deleteImg(String delImg, int res_num) {
+			System.out.println("이미지 삭제 함수 실행 =========");
+			String [] delImgs = delImg.split(",");
+			int n=0;
+			HashMap<String, String> map = new HashMap<>(); 
+			for(int i = 0; i < delImgs.length; i++) {
+				if(delImgs[i]!=""||delImgs[i]!=null) {
+					System.out.println("이미지 삭제 함수 for문 =========");
+					map.put("res_num", Integer.toString(res_num));
+					map.put("img_rnk",delImgs[i]);
+					n=n+service.deleteImg(map);
+				}
+				
+			}
+			if(n!=0) {
+				return true;
+			}else {
+				return false;
+			}
+		}
 }

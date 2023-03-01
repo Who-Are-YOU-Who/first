@@ -11,15 +11,40 @@
  
 <div style="width: 100%;">
 <div id="AllsortDiv" class="col-md-6" style="margin: auto;">
+<a id="resetSort" href="${contextPath}/reviewsMain" >전체</a>
+<a id="chked_sort1" style="display: none;" href="javascript:sort2Reset()"></a>
+<a id="chked_sort2"  style="display: none;"></a>
+
 <div id="sort1Div">  <!-- 분류1 -->
+<br>
+	<% List<Res_sort1DTO>s1List = (List<Res_sort1DTO>)request.getAttribute("s1List");
+	for(int i = 0; i < s1List.size();i++){%>
+<button id="sort1_<%=s1List.get(i).getSort1_num() %>" value="unchecked" type="button" class="btn btn-primary btn-sm" onclick="selectSort1(<%=s1List.get(i).getSort1_num() %>)"><%=s1List.get(i).getSort1_name() %></button>
+	<%} %>
 
 </div>
 <br>
 <div id="sort2Div"> <!-- 분류2 -->
 
 </div>
+<input type="hidden" id="sort1Num" value="">
+<input type="hidden" id="sort2Num" value="">
 </div>
-<br><br>
+<br>
+
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown" style="float: right; position: relative; right:80px; bottom:30px;">
+  <button type="button" class="btn btn-outline-primary" id="orderBy">정렬</button>
+  <div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+      <a class="dropdown-item" href="javascript:orderBy('Recent')" id="orderByRecent">최신 후기순</a>
+      <a class="dropdown-item" href="javascript:orderBy('MoreRated')" id="orderByMoreRated">후기 많은순</a>
+      <a class="dropdown-item" href="javascript:orderBy('Rate')" id="orderByRate">평점순</a>
+      <a class="dropdown-item" href="javascript:orderBy('Distance')" id="orderByDistance">거리순</a>
+    </div>
+  </div>
+</div>
+<br><br><br>
 <div id="resContainer"  class="col-md-10" style="margin: auto;">
 
 <%
@@ -95,6 +120,9 @@ System.out.println("jsp에서=="+rList);
 <script type="text/javascript">
 
 function selectSort1(sort1_num) {
+	
+	$("#chked_sort2").empty();
+	$("#chked_sort2").hide();
 	$.ajax({
 		type : "get",
 		url : "${contextPath}/selectSort1",
@@ -106,13 +134,49 @@ function selectSort1(sort1_num) {
 			console.log("sort1선택됨=======sort2보이기====");
 			$("#sort2Div").empty();
 			$("#sort2Div").append(data);
+			console.log($("#sort1_"+sort1_num).text());
+			$("#chked_sort1").text("> "+$("#sort1_"+sort1_num).text());
+			$("#chked_sort1").show();
+			
+			resBySort1(sort1_num);
 		},
 		error : function(xhr, status, error) {
 			console.log(error);
 		}
 	})//end ajax
 	
+	$("#sort1Num").val(sort1_num);
 } //end selectSort1
+
+function sort2Reset() {
+
+	$("#chked_sort2").empty();
+	$("#chked_sort2").hide();
+	
+	var sort1_num = $("#sort1Num").val();
+	resBySort1(sort1_num);
+}
+
+function resBySort1(sort1_num) {
+	
+	$.ajax({
+		type : "get",
+		url : "${contextPath}/ResBySort1",
+		data : {
+			sort1_num : sort1_num
+		},
+		dataType : "text",
+		success : function(data,status,xhr) {
+			console.log("sort1선택됨=======분류에 맞는 업체 보이기====");
+			$("#resContainer").empty();
+			$("#resContainer").append(data);
+		},
+		error : function(xhr, status, error) {
+			console.log(error);
+		}
+	})//end ajax
+	
+}
 
 function selectSort2(sort2_num) {
 
@@ -121,9 +185,11 @@ function selectSort2(sort2_num) {
 		console.log("체크함========");
 		$("#sort2_"+sort2_num).val("checked");
 		
+		
 	}else if($("#sort2_"+sort2_num).val()=="checked"){
 		console.log("체크해제========");
 		$("#sort2_"+sort2_num).val("unchecked");
+		
 	}
 			
 	
@@ -134,6 +200,8 @@ function selectSort2(sort2_num) {
 	//console.log(sort2List);
 	
 	//요소들의 value가 checked일 때 sendingList에 저장
+	var names = "";
+	var nums = "";
 	for(var i = 0; i<sort2List.length;i++ ){
 		console.log("요소==="+sort2List.get(i).value);
 		
@@ -144,11 +212,17 @@ function selectSort2(sort2_num) {
 			splitName = s2name.split('_');
 			console.log("List에 들어가는 sort2번호 : ");
 			sendingList[i] = splitName[1];
-			
+			names = names+ " "+$("#"+sort2List.get(i).id).text();
+			nums = nums+","+sendingList[i];
 		}
 		
 	}//end for
-	console.log(sendingList);
+	console.log("sendingList="+sendingList);
+	
+	$("#chked_sort2").text("> "+names);
+	$("#chked_sort2").show();
+	$("#sort2Num").val(nums);
+	
 	
 	$.ajax({
 		type : "get",
@@ -195,6 +269,33 @@ function nextImage(res_num) {
 	
 	
 	}
+	
+function orderBy(data) {
+	console.log(data);
+	console.log($("#orderBy"+data).text());
+	$("#orderBy").text($("#orderBy"+data).text());
+	
+	var sort2_nums = $("#sort2Num").val();
+	console.log("sort2_nums=="+sort2_nums);
+	
+	$.ajax({
+		type : "get",
+		url : "${contextPath}/orderBy",
+		data : {
+			data : data,
+			sort2_nums : sort2_nums
+		},
+		dataType : "text",
+		success : function(data,status,xhr) {
+			console.log("정렬 선택======= 맞는 업체 보이기====");
+			$("#resContainer").empty();
+			$("#resContainer").append(data);
+		},
+		error : function(xhr, status, error) {
+			console.log(error);
+		}
+	})//end ajax
+}	
 	
 	
 	

@@ -172,7 +172,7 @@
 	</tr>
 	</table>
 	
-	
+<input type="hidden" id="delImg" name="delImg"> 
 <!-- 사진등록 -->
 <div style="margin: auto;">
  	<div id="uploadImages" class="form-group">
@@ -237,8 +237,13 @@
 	function deleteImg(img_rnk) {
 		console.log("이미지 삭제===="+img_rnk+"번째 사진 삭제");
 		var res_num =$("#res_num").val()
-		
-		$.ajax({
+		$("#imgtd"+img_rnk).remove();
+		var deleteImg = $("#delImg").val();
+		deleteImg = deleteImg + "," + img_rnk ; 
+		$("#delImg").val(deleteImg);
+		alert(deleteImg);
+
+	/*	$.ajax({
 			type : "get",
 			url : "${contextPath}/deleteImg",
 			data : {
@@ -258,7 +263,7 @@
 			error : function(xhr, status, error) {
 				console.log(error);
 			}
-		})//end ajax
+		})//end ajax*/
 		
 	}
   </script>

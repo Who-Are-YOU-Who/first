@@ -76,13 +76,45 @@ select * from images where res_num = #{res_num} and img_rnk= #{img_Rnk}
 select COUNT(*) from images where res_num = #{res_num}
 </select>
 
+<!-- 부류1번호로 업체 선택하기 -->
+<select id="selectResBySort1" parameterType="int" resultType="DisplayRestaurantDTO">
+select 
+a.RES_NUM, 
+a.RES_NAME, 
+a.RES_LOC, 
+a.SORT1_NUM, 
+b.SORT1_NAME, 
+a.SORT2_NUM, 
+c.SORT2_NAME,
+a.INTRODUCTION 
+
+from restaurant a, res_sort1 b , res_sort2 c
+where a.sort1_num = #{sort1_num}
+and  a.SORT1_NUM = b.SORT1_NUM
+ and a.SORT2_NUM =  c.SORT2_NUM 
+</select>
+
 <!-- 부류2번호list로 업체 선택하기 -->
-<select id="selectResBySort2" parameterType="List" resultType="RestaurantDTO">
-select * from restaurant where sort2_num in (
+<select id="selectResBySort2" parameterType="List" resultType="DisplayRestaurantDTO">
+select 
+a.RES_NUM, 
+a.RES_NAME, 
+a.RES_LOC, 
+a.SORT1_NUM, 
+b.SORT1_NAME, 
+a.SORT2_NUM, 
+c.SORT2_NAME,
+a.INTRODUCTION 
+
+from restaurant a, res_sort1 b , res_sort2 c
+
+where a.sort2_num in (
  <foreach collection="list" item="item" separator=",">
  #{item}
  </foreach>
  )
+ and  a.SORT1_NUM = b.SORT1_NUM
+ and a.SORT2_NUM =  c.SORT2_NUM 
 </select>
 
 <!-- res_num List로 이미지 선택 -->

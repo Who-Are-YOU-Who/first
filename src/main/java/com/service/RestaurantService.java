@@ -86,8 +86,8 @@ public class RestaurantService {
 		return sort2List;
 	}
 
-	public List<RestaurantDTO> selectResBySort2(List<String> chks2List) {
-		List<RestaurantDTO> rList = dao.selectResBySort2(chks2List);
+	public List<DisplayRestaurantDTO> selectResBySort2(List<String> chks2List) {
+		List<DisplayRestaurantDTO> rList = dao.selectResBySort2(chks2List);
 		return rList;
 	}
 
@@ -106,7 +106,7 @@ public class RestaurantService {
 		return rdto;
 	}
 
-	public int deleteImg(HashMap<String, Integer> map) {
+	public int deleteImg(HashMap<String, String> map) {
 		int n = dao.deleteImg(map);
 		return n;
 	}
@@ -154,6 +154,11 @@ public class RestaurantService {
 	public DisplayRestaurantDTO resByNum(int res_num) {
 		DisplayRestaurantDTO rdto = dao.resByNum(res_num);
 		return rdto;
+	}
+
+	public List<DisplayRestaurantDTO> selectResBySort1(int sort1_num) {
+		List<DisplayRestaurantDTO> rList = dao.selectResBySort1(sort1_num);
+		return rList;
 	}
 
 	

@@ -85,8 +85,8 @@ public class RestaurantDAO {
 		return sort2List;
 	}
 
-	public List<RestaurantDTO> selectResBySort2(List<String> chks2List) {
-		List<RestaurantDTO> rList = template.selectList("RestaurantMapper.selectResBySort2",chks2List);
+	public List<DisplayRestaurantDTO> selectResBySort2(List<String> chks2List) {
+		List<DisplayRestaurantDTO> rList = template.selectList("RestaurantMapper.selectResBySort2",chks2List);
 		return rList;
 	}
 
@@ -105,7 +105,7 @@ public class RestaurantDAO {
 		return rdto;
 	}
 
-	public int deleteImg(HashMap<String, Integer> map) {
+	public int deleteImg(HashMap<String, String> map) {
 		int n = template.delete("RestaurantMapper.deleteImg", map);
 		return n;
 	}
@@ -155,6 +155,11 @@ public class RestaurantDAO {
 	public DisplayRestaurantDTO resByNum(int res_num) {
 		DisplayRestaurantDTO rdto = template.selectOne("RestaurantMapper.resByNum", res_num);
 		return rdto;
+	}
+
+	public List<DisplayRestaurantDTO> selectResBySort1(int sort1_num) {
+		List<DisplayRestaurantDTO> rList = template.selectList("RestaurantMapper.selectResBySort1", sort1_num);
+		return rList;
 	}
 
 	
